@@ -1,0 +1,20 @@
+---
+  - name: Install pre-requisites for Elastic (Java and Nginx) on Ubuntu
+    apt:
+      name: 
+        - openjdk-11-jdk
+        - nginx
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+
+  - name: Install pre-requisites for Elastc (Java and Nginx) on CentOS
+    dnf:
+      name: 
+        - java-1.8.0-openjdk-devel
+        - epel-release
+        - nginx
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "CentOS"

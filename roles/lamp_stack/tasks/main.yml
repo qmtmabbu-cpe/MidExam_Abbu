@@ -1,0 +1,4 @@
+---
+# tasks file for lamp_stack
+  - include: mariadb.yml
+  - include: httpd-php.yml

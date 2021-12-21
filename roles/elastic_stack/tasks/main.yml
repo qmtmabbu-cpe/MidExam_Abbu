@@ -1,0 +1,19 @@
+---
+# tasks file for elk
+
+# install java and nginx
+
+  - include: config_prerqs.yaml
+
+# install Elasticsearch
+  
+  - include: config_elasticsearch.yml
+
+
+# install Kibana
+
+  - include: config_kibana.yml
+
+# install Logstash
+   
+  - include: config_logstash.yml

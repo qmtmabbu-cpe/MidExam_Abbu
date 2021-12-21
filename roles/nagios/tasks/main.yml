@@ -1,0 +1,6 @@
+---
+# tasks file for nagios
+  - include: nagios_cdp.yml
+  - include: nagios_plugins.yml 
+
+

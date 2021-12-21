@@ -1,0 +1,16 @@
+---
+  - name: Installation of Services on CentOS and Ubuntu
+    hosts: all
+    become: True
+    roles:
+     - elastic_stack
+     - grafana
+     - prometheus 
+     - influxdb
+     - lamp_stack
+
+  - name: Install Nagios on Ubuntu 
+    hosts: Ubuntu
+    become: True
+    roles:
+     - nagios

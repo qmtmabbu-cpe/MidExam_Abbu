@@ -1,0 +1,42 @@
+
+---
+# tasks file for grafana
+  - name: Add repo for Grafana
+    copy:
+      src: grafana.repo
+      dest: /etc/yum.repos.d/
+    when: ansible_distribution == "CentOS"
+
+  - name: Install Grafana
+    yum: 
+      name: grafana
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: start and enable grafana
+    service:
+      name: grafana-server
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: Add repo for Grafana
+    copy:
+      src: grafana.repo
+      dest: /etc/yum.repos.d/
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Grafana
+    apt:
+      name: grafana
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: start and enable grafana
+    service:
+      name: grafana-server
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Ubuntu"

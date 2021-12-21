@@ -1,0 +1,78 @@
+---
+# tasks file for nagios
+  - name: Install Nagios on Ubuntu
+    apt:
+      name:
+        - build-essential
+        - apache2
+        - php
+        - openssl
+        - perl
+        - make
+        - php-gd
+        - libgd-dev
+        - libapache2-mod-php
+        - libperl-dev
+        - libssl-dev
+        - daemon
+        - wget
+        - apache2-utils
+        - unzip
+      state: latest
+      update_cache: yes
+  
+  - name: Add group nagcmd
+    group: 
+      name: nagcmd
+      state: present
+   
+  - name: Add user Nagios
+    user: 
+      name: nagios
+      group: nagcmd
+
+  - name: Download and Extract Nagios Core
+    unarchive:
+      src: https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.5.tar.gz
+      dest: /tmp
+      copy: no
+  
+  - name: Configure Nagios within Ubuntu
+    command: ./configure --with-nagios-group=nagcmd --with-command-group=nagcmd --with-httpd_conf=/etc/apache2/sites-enable
+    args:
+      chdir: /tmp/nagios-4.4.5
+
+    
+  - name: Configure using make install-init
+    make:
+      target: install-init
+      chdir: /tmp/nagios-4.4.5
+
+  - name: Configure using make install-config
+    make:
+      target: install-config
+      chdir: /tmp/nagios-4.4.5
+
+  - name: Configure using make install-commandmode
+    make:
+      target: install-commandmode
+      chdir: /tmp/nagios-4.4.5
+
+  - name: Web Interface Installer
+    make:
+      target: install-webconf
+      chdir: /tmp/nagios-4.4.5
+
+  - name: Add user account
+    htpasswd:
+      path: /usr/local/nagios/etc/htpasswd.users
+      name: "{{ username }}"
+      password: "{{ password }}"
+
+  - name: a2enmod cgi
+    command: a2enmod cgi
+
+  - name: Restart apache2
+    service:
+      name: apache2
+      state: restarted

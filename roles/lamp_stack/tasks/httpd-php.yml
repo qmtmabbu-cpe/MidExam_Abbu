@@ -1,0 +1,29 @@
+---
+# tasks file for httpd
+
+  - name: Install httpd on Ubuntu
+    package:
+      name: apache2
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install PHP
+    apt:
+      name: libapache2-mod-php 
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install httpd on CentOs
+    yum:
+      name: httpd
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+  - name: Install PHP on CentOS
+    yum:
+      name: php
+      state: latest
+    when: ansible_distribution == "CentOS"
+
+ 

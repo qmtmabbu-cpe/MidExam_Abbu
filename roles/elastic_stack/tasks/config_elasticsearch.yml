@@ -1,0 +1,44 @@
+---
+# Install Elasticsearch on Ubuntu
+  - name: Add ELK APT Key on Ubuntu
+    apt_key:
+      url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+      state: present
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Add ELK Repository on Ubuntu
+    apt_repository:
+      repo: "deb https://artifacts.elastic.co/packages/7.x/apt stable main"
+      state: present
+      filename: "elasticsearch.list"
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Elasticsearch on Ubuntu
+    apt:
+      name: elasticsearch
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+# Install Elasticsearch on CentOS
+  - name: Add ELK RPM key on CentOS
+    rpm_key:
+      key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      state: present
+    when: ansible_distribution == "CentOS"
+
+  - name: Add ELK Repository on CentOS
+    yum_repository:
+      name: elasticsearch-7.x
+      description: Adds repository key
+      baseurl: https://artifacts.elastic.co/packages/7.x/yum
+      gpgcheck: True
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    when: ansible_distribution == "CentOS"
+
+  - name: Install Elasticsearch on CentOS
+    yum:
+      name: elasticsearch
+      state: latest
+      update_cache: yes
+    when: ansible_distribution  == "CentOS"
